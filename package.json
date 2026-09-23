@@ -1,0 +1,33 @@
+{
+  "name": "@wishx127/pi-fast",
+  "version": "0.1.0",
+  "description": "One /fast toggle for supported models in Pi",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wishx127/pi-fast.git"
+  },
+  "keywords": ["pi-package", "pi-extension", "openai", "codex", "fast-mode"],
+  "pi": {
+    "extensions": ["./src/index.ts"]
+  },
+  "files": ["src"],
+  "scripts": {
+    "test": "node --test test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "check": "npm test && npm run typecheck",
+    "prepublishOnly": "npm run check"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "^0.87.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^6.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
