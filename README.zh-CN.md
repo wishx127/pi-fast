@@ -24,12 +24,12 @@ pi install npm:@wishx127/pi-fast
 
 ## 工作方式
 
-开启后，扩展会检查 Pi 的提供商、当前模型和请求中的模型。对下表列出的模型，若请求尚未设置服务层级，就会在 Pi 发出请求前添加 `service_tier: "priority"`。其他请求保持原样。扩展不会自行发送网络请求，也不会改动提示词、工具、模型或推理级别。
+开启后，扩展会检查 Pi 的提供商、当前模型和请求中的模型。对下表列出的模型，若请求尚未设置服务层级，就会在 Pi 发出请求前添加快速服务层级：现有模型使用 `service_tier: "priority"`，`gpt-6.1-sol` 使用 `service_tier: "fast"`。OpenAI 将 `priority` 作为新版 Fast 模式名称的兼容别名。其他请求保持原样。扩展不会自行发送网络请求，也不会改动提示词、工具、模型或推理级别。
 
 | 提供商 | 支持的模型 ID |
 | --- | --- |
-| `openai`（API Key） | `gpt-5.4`、`gpt-5.4-mini`、`gpt-5.5`、`gpt-5.6-sol`、`gpt-5.6-terra`、`gpt-5.6-luna`、`gpt-6-astra` |
-| `openai-codex`（ChatGPT 登录） | `gpt-5.4`、`gpt-5.5`、`gpt-5.6-sol`、`gpt-5.6-terra`、`gpt-5.6-luna`、`gpt-6-astra`、`gpt-6-sol`、`gpt-6-luna` |
+| `openai`（API Key） | `gpt-5.4`、`gpt-5.4-mini`、`gpt-5.5`、`gpt-5.6-sol`、`gpt-5.6-terra`、`gpt-5.6-luna`、`gpt-6-astra`、`gpt-6.1-sol` |
+| `openai-codex`（ChatGPT 登录） | `gpt-5.4`、`gpt-5.5`、`gpt-5.6-sol`、`gpt-5.6-terra`、`gpt-5.6-luna`、`gpt-6-astra`、`gpt-6-sol`、`gpt-6-luna`、`gpt-6.1-sol` |
 
 ### 注意：已请求 ≠ 已生效
 

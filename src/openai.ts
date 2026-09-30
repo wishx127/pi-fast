@@ -8,6 +8,7 @@ const supportedModels = new Set([
   "openai/gpt-5.6-terra",
   "openai/gpt-5.6-luna",
   "openai/gpt-6-astra",
+  "openai/gpt-6.1-sol",
   "openai-codex/gpt-5.4",
   "openai-codex/gpt-5.5",
   "openai-codex/gpt-5.6-sol",
@@ -16,6 +17,7 @@ const supportedModels = new Set([
   "openai-codex/gpt-6-astra",
   "openai-codex/gpt-6-sol",
   "openai-codex/gpt-6-luna",
+  "openai-codex/gpt-6.1-sol",
 ]);
 
 type Model = { provider: string; id: string } | undefined;
@@ -28,5 +30,5 @@ export function applyOpenAIFast(model: Model, payload: unknown): unknown | undef
   if (!model || !supportsOpenAIFast(model) || !payload || typeof payload !== "object" || Array.isArray(payload)) return;
   const request = payload as Record<string, unknown>;
   if (request.model !== model.id || "service_tier" in request) return;
-  return { ...request, service_tier: "priority" };
+  return { ...request, service_tier: model.id === "gpt-6.1-sol" ? "fast" : "priority" };
 }

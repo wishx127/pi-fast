@@ -26,8 +26,9 @@ function mockExtension() {
   return { command, start: handlers.get("session_start")!, request: handlers.get("before_provider_request")! };
 }
 
-test("only eligible OpenAI requests receive priority without overriding existing settings", () => {
+test("eligible OpenAI requests receive the right fast tier without overriding settings", () => {
   const payload = { model: codex.id, input: [] };
+  const sol = { provider: "openai", id: "gpt-6.1-sol" };
   assert.deepEqual(applyOpenAIFast(codex, payload), { ...payload, service_tier: "priority" });
   assert.deepEqual(applyOpenAIFast({ ...codex, provider: "openai" }, payload), {
     ...payload,
@@ -36,6 +37,14 @@ test("only eligible OpenAI requests receive priority without overriding existing
   assert.deepEqual(applyOpenAIFast({ ...codex, id: "gpt-6-sol" }, { model: "gpt-6-sol" }), {
     model: "gpt-6-sol",
     service_tier: "priority",
+  });
+  assert.deepEqual(applyOpenAIFast(sol, { model: sol.id }), {
+    model: sol.id,
+    service_tier: "fast",
+  });
+  assert.deepEqual(applyOpenAIFast({ ...sol, provider: "openai-codex" }, { model: sol.id }), {
+    model: sol.id,
+    service_tier: "fast",
   });
   assert.equal(applyOpenAIFast({ ...codex, provider: "anthropic" }, payload), undefined);
   assert.equal(applyOpenAIFast({ ...codex, id: "gpt-5.4-nano" }, { model: "gpt-5.4-nano" }), undefined);

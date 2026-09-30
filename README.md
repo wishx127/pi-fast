@@ -24,12 +24,12 @@ If another extension already registers `/fast`, disable it before installing thi
 
 ## What it does
 
-When enabled, the extension checks the Pi provider, active model, and serialized request model. For models listed below, it adds `service_tier: "priority"` before Pi sends the request, unless a tier is already set. Other requests are unchanged. It does not make independent network requests or alter your prompts, tools, model, or reasoning level.
+When enabled, the extension checks the Pi provider, active model, and serialized request model. For models listed below, it adds a fast service tier before Pi sends the request, unless a tier is already set: `service_tier: "priority"` for existing models and `service_tier: "fast"` for `gpt-6.1-sol`. OpenAI documents `priority` as the backward-compatible alias for the newer Fast mode name. Other requests are unchanged. It does not make independent network requests or alter your prompts, tools, model, or reasoning level.
 
 | Provider | Eligible model IDs |
 | --- | --- |
-| `openai` (API key) | `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.5`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-6-astra` |
-| `openai-codex` (ChatGPT sign-in) | `gpt-5.4`, `gpt-5.5`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-6-astra`, `gpt-6-sol`, `gpt-6-luna` |
+| `openai` (API key) | `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.5`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-6-astra`, `gpt-6.1-sol` |
+| `openai-codex` (ChatGPT sign-in) | `gpt-5.4`, `gpt-5.5`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-6-astra`, `gpt-6-sol`, `gpt-6-luna`, `gpt-6.1-sol` |
 
 ### Important: requested ≠ delivered
 
