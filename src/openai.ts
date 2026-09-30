@@ -30,5 +30,5 @@ export function applyOpenAIFast(model: Model, payload: unknown): unknown | undef
   if (!model || !supportsOpenAIFast(model) || !payload || typeof payload !== "object" || Array.isArray(payload)) return;
   const request = payload as Record<string, unknown>;
   if (request.model !== model.id || "service_tier" in request) return;
-  return { ...request, service_tier: model.id === "gpt-6.1-sol" ? "fast" : "priority" };
+  return { ...request, service_tier: "priority" };
 }

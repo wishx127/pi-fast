@@ -1,6 +1,6 @@
 {
   "name": "@wishx127/pi-fast",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "One /fast toggle for supported models in Pi",
   "type": "module",
   "license": "MIT",

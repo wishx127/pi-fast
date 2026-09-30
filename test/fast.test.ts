@@ -40,11 +40,11 @@ test("eligible OpenAI requests receive the right fast tier without overriding se
   });
   assert.deepEqual(applyOpenAIFast(sol, { model: sol.id }), {
     model: sol.id,
-    service_tier: "fast",
+    service_tier: "priority",
   });
   assert.deepEqual(applyOpenAIFast({ ...sol, provider: "openai-codex" }, { model: sol.id }), {
     model: sol.id,
-    service_tier: "fast",
+    service_tier: "priority",
   });
   assert.equal(applyOpenAIFast({ ...codex, provider: "anthropic" }, payload), undefined);
   assert.equal(applyOpenAIFast({ ...codex, id: "gpt-5.4-nano" }, { model: "gpt-5.4-nano" }), undefined);

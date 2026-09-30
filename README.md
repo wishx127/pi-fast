@@ -24,7 +24,7 @@ If another extension already registers `/fast`, disable it before installing thi
 
 ## What it does
 
-When enabled, the extension checks the Pi provider, active model, and serialized request model. For models listed below, it adds a fast service tier before Pi sends the request, unless a tier is already set: `service_tier: "priority"` for existing models and `service_tier: "fast"` for `gpt-6.1-sol`. OpenAI documents `priority` as the backward-compatible alias for the newer Fast mode name. Other requests are unchanged. It does not make independent network requests or alter your prompts, tools, model, or reasoning level.
+When enabled, the extension checks the Pi provider, active model, and serialized request model. For models listed below, it adds a fast service tier before Pi sends the request, unless a tier is already set: `service_tier: "priority"`. OpenAI documents `priority` as the backward-compatible alias for the newer Fast mode name. Other requests are unchanged. It does not make independent network requests or alter your prompts, tools, model, or reasoning level.
 
 | Provider | Eligible model IDs |
 | --- | --- |
