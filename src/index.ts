@@ -1,58 +1,72 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { getAgentDir, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { applyOpenAIFast, supportsOpenAIFast } from "./openai.ts";
+import { applyOpenAIFast, applyOpenAIUltrafast, supportsOpenAIFast, supportsOpenAIUltrafast } from "./openai.ts";
+
+type SpeedMode = "off" | "fast" | "ultrafast";
+
+const modes = [
+  { command: "fast", label: "Fast", supports: supportsOpenAIFast },
+  { command: "ultrafast", label: "Ultrafast", supports: supportsOpenAIUltrafast },
+] as const;
 
 function statePath(): string {
   return join(getAgentDir(), "extensions", "pi-fast.json");
 }
 
-function loadEnabled(): boolean {
+function loadMode(): SpeedMode {
   try {
-    return JSON.parse(readFileSync(statePath(), "utf8")).enabled === true;
+    const saved = JSON.parse(readFileSync(statePath(), "utf8"));
+    if (saved?.mode === "fast" || saved?.mode === "ultrafast") return saved.mode;
+    // Preserve choices saved by versions that only had the /fast toggle.
+    if (saved?.mode === undefined && saved?.enabled === true) return "fast";
+    return "off";
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
-      console.error("[pi-fast] Could not read saved state; starting with Fast mode off.");
+      console.error("[pi-fast] Could not read saved state; starting with Fast and Ultrafast off.");
     }
-    return false;
+    return "off";
   }
 }
 
 export default function fastExtension(pi: ExtensionAPI): void {
-  let enabled = false;
+  let mode: SpeedMode = "off";
 
   pi.on("session_start", () => {
-    enabled = loadEnabled();
+    mode = loadMode();
   });
 
-  pi.registerCommand("fast", {
-    description: "Toggle Fast mode for supported models",
-    handler: async (args, ctx) => {
-      if (args.trim()) {
-        ctx.ui.notify("Usage: /fast", "warning");
-        return;
-      }
-      enabled = !enabled;
-      try {
-        const path = statePath();
-        mkdirSync(dirname(path), { recursive: true });
-        writeFileSync(path, `${JSON.stringify({ enabled })}\n`, "utf8");
-      } catch {
-        ctx.ui.notify("Fast mode state could not be saved; this session still works.", "warning");
-      }
-      const model = ctx.model;
-      const supported = supportsOpenAIFast(model);
-      let message = "Fast mode off.";
-      if (enabled) {
-        message = supported
-          ? `Fast mode on for ${model?.provider}/${model?.id}.`
-          : `Fast mode on, but ${model?.provider ?? "current provider"}/${model?.id ?? "model"} is not supported.`;
-      }
-      ctx.ui.notify(message, enabled && !supported ? "warning" : "info");
-    },
-  });
+  for (const target of modes) {
+    pi.registerCommand(target.command, {
+      description: `Toggle ${target.label} mode for supported models`,
+      handler: async (args, ctx) => {
+        if (args.trim()) {
+          ctx.ui.notify(`Usage: /${target.command}`, "warning");
+          return;
+        }
+        const nextMode = mode === target.command ? "off" : target.command;
+        const model = ctx.model;
+        const modelName = `${model?.provider ?? "current provider"}/${model?.id ?? "model"}`;
+        if (nextMode !== "off" && !target.supports(model)) {
+          const currentMode = mode === "off" ? "Standard" : mode === "fast" ? "Fast" : "Ultrafast";
+          ctx.ui.notify(`${target.label} mode is not supported for ${modelName}. ${currentMode} mode unchanged.`, "warning");
+          return;
+        }
+        mode = nextMode;
+        try {
+          const path = statePath();
+          mkdirSync(dirname(path), { recursive: true });
+          writeFileSync(path, `${JSON.stringify({ mode })}\n`, "utf8");
+        } catch {
+          ctx.ui.notify("Speed mode state could not be saved; this session still works.", "warning");
+        }
+        ctx.ui.notify(mode === "off" ? "Fast and Ultrafast modes off." : `${target.label} mode requested for ${modelName}.`, "info");
+      },
+    });
+  }
 
   pi.on("before_provider_request", (event, ctx) => {
-    if (enabled) return applyOpenAIFast(ctx.model, event.payload);
+    if (mode === "fast") return applyOpenAIFast(ctx.model, event.payload);
+    if (mode === "ultrafast") return applyOpenAIUltrafast(ctx.model, event.payload);
   });
 }

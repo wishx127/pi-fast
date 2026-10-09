@@ -20,15 +20,37 @@ const supportedModels = new Set([
   "openai-codex/gpt-6.1-sol",
 ]);
 
-type Model = { provider: string; id: string } | undefined;
+// API: https://developers.openai.com/api/docs/guides/ultrafast-mode
+// ChatGPT sign-in: https://learn.chatgpt.com/docs/agent-configuration/speed
+const supportedUltrafastModels = new Set([
+  "openai/gpt-6-astra",
+  "openai/gpt-6.1-sol",
+  "openai-codex/gpt-6-astra",
+  "openai-codex/gpt-6.1-sol",
+]);
+
+type Model = { provider: string; id: string; api?: string } | undefined;
 
 export function supportsOpenAIFast(model: Model): boolean {
   return model !== undefined && supportedModels.has(`${model.provider}/${model.id}`);
 }
 
-export function applyOpenAIFast(model: Model, payload: unknown): unknown | undefined {
-  if (!model || !supportsOpenAIFast(model) || !payload || typeof payload !== "object" || Array.isArray(payload)) return;
+export function supportsOpenAIUltrafast(model: Model): boolean {
+  if (!model || !supportedUltrafastModels.has(`${model.provider}/${model.id}`)) return false;
+  return model.api === (model.provider === "openai" ? "openai-responses" : "openai-codex-responses");
+}
+
+function applyServiceTier(model: Model, payload: unknown, tier: "priority" | "ultrafast"): unknown | undefined {
+  if (!model || !payload || typeof payload !== "object" || Array.isArray(payload)) return;
   const request = payload as Record<string, unknown>;
   if (request.model !== model.id || "service_tier" in request) return;
-  return { ...request, service_tier: "priority" };
+  return { ...request, service_tier: tier };
+}
+
+export function applyOpenAIFast(model: Model, payload: unknown): unknown | undefined {
+  if (supportsOpenAIFast(model)) return applyServiceTier(model, payload, "priority");
+}
+
+export function applyOpenAIUltrafast(model: Model, payload: unknown): unknown | undefined {
+  if (supportsOpenAIUltrafast(model)) return applyServiceTier(model, payload, "ultrafast");
 }
