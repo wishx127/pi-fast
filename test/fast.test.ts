@@ -85,9 +85,9 @@ test("eligible OpenAI requests receive the right fast tier without overriding se
   assert.deepEqual(payload, { model: codex.id, input: [] });
 });
 
-test("Ultrafast applies to both supported models on API-key and ChatGPT Responses channels", () => {
+test("Ultrafast applies to supported models on API-key and ChatGPT Responses channels", () => {
   for (const provider of ["openai", "openai-codex"]) {
-    for (const id of ["gpt-6.1-sol", "gpt-6-astra"]) {
+    for (const id of ["gpt-6.1-sol", "gpt-6-astra", "gpt-6.2-sol", "gpt-6.2-astra"]) {
       const model = { provider, id, api: provider === "openai" ? "openai-responses" : "openai-codex-responses" };
       const payload = Object.freeze({ model: id, input: [], tools: [], reasoning: { effort: "high" }, stream: true });
       assert.equal(supportsOpenAIUltrafast(model), true);
@@ -108,6 +108,8 @@ test("Ultrafast rejects unsupported models, providers, and non-Responses interfa
     { ...sol, api: "openai-codex-responses" },
     { ...sol, api: undefined },
     { ...sol, provider: "openai-codex" },
+    { ...sol, id: "gpt-6.2-sol", api: "openai-completions" },
+    { ...codex, id: "gpt-6.2-astra", api: "openai-responses" },
   ]) {
     assert.equal(supportsOpenAIUltrafast(model), false);
     assert.equal(applyOpenAIUltrafast(model, { model: model?.id }), undefined);

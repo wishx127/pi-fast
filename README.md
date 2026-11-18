@@ -28,8 +28,9 @@ When enabled, the extension checks the Pi provider, active model, and serialized
 
 | Provider | Fast model IDs | Ultrafast model IDs |
 | --- | --- | --- |
-| `openai` (API key) | `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.5`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-6-astra`, `gpt-6.1-sol` | `gpt-6-astra`, `gpt-6.1-sol` |
-| `openai-codex` (ChatGPT sign-in) | `gpt-5.4`, `gpt-5.5`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-6-astra`, `gpt-6-sol`, `gpt-6-luna`, `gpt-6.1-sol` | `gpt-6-astra`, `gpt-6.1-sol` |
+| `openai` (API key) | `gpt-5.4`, `gpt-5.4-mini`, `gpt-5.5`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-6-astra`, `gpt-6.1-sol`, `gpt-6.2-sol`, `gpt-6.2-astra` | `gpt-6-astra`, `gpt-6.1-sol`, `gpt-6.2-sol`, `gpt-6.2-astra` |
+| `openai-codex` (ChatGPT sign-in) | `gpt-5.4`, `gpt-5.5`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-6-astra`, `gpt-6-sol`, `gpt-6-luna`, `gpt-6.1-sol`, `gpt-6.2-sol`, `gpt-6.2-astra` | `gpt-6-astra`, `gpt-6.1-sol`, `gpt-6.2-sol`, `gpt-6.2-astra` |
+
 
 ### Important: requested ≠ delivered
 

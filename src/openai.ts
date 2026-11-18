@@ -9,6 +9,8 @@ const supportedModels = new Set([
   "openai/gpt-5.6-luna",
   "openai/gpt-6-astra",
   "openai/gpt-6.1-sol",
+  "openai/gpt-6.2-sol",
+  "openai/gpt-6.2-astra",
   "openai-codex/gpt-5.4",
   "openai-codex/gpt-5.5",
   "openai-codex/gpt-5.6-sol",
@@ -18,6 +20,8 @@ const supportedModels = new Set([
   "openai-codex/gpt-6-sol",
   "openai-codex/gpt-6-luna",
   "openai-codex/gpt-6.1-sol",
+  "openai-codex/gpt-6.2-sol",
+  "openai-codex/gpt-6.2-astra",
 ]);
 
 // API: https://developers.openai.com/api/docs/guides/ultrafast-mode
@@ -25,8 +29,12 @@ const supportedModels = new Set([
 const supportedUltrafastModels = new Set([
   "openai/gpt-6-astra",
   "openai/gpt-6.1-sol",
+  "openai/gpt-6.2-sol",
+  "openai/gpt-6.2-astra",
   "openai-codex/gpt-6-astra",
   "openai-codex/gpt-6.1-sol",
+  "openai-codex/gpt-6.2-sol",
+  "openai-codex/gpt-6.2-astra",
 ]);
 
 type Model = { provider: string; id: string; api?: string } | undefined;

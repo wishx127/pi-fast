@@ -28,8 +28,8 @@ pi install npm:@wishx127/pi-fast
 
 | 提供商 | Fast 支持的模型 ID | Ultrafast 支持的模型 ID |
 | --- | --- | --- |
-| `openai`（API Key） | `gpt-5.4`、`gpt-5.4-mini`、`gpt-5.5`、`gpt-5.6-sol`、`gpt-5.6-terra`、`gpt-5.6-luna`、`gpt-6-astra`、`gpt-6.1-sol` | `gpt-6-astra`、`gpt-6.1-sol` |
-| `openai-codex`（ChatGPT 登录） | `gpt-5.4`、`gpt-5.5`、`gpt-5.6-sol`、`gpt-5.6-terra`、`gpt-5.6-luna`、`gpt-6-astra`、`gpt-6-sol`、`gpt-6-luna`、`gpt-6.1-sol` | `gpt-6-astra`、`gpt-6.1-sol` |
+| `openai`（API Key） | `gpt-5.4`、`gpt-5.4-mini`、`gpt-5.5`、`gpt-5.6-sol`、`gpt-5.6-terra`、`gpt-5.6-luna`、`gpt-6-astra`、`gpt-6.1-sol`、`gpt-6.2-sol`、`gpt-6.2-astra` | `gpt-6-astra`、`gpt-6.1-sol`、`gpt-6.2-sol`、`gpt-6.2-astra` |
+| `openai-codex`（ChatGPT 登录） | `gpt-5.4`、`gpt-5.5`、`gpt-5.6-sol`、`gpt-5.6-terra`、`gpt-5.6-luna`、`gpt-6-astra`、`gpt-6-sol`、`gpt-6-luna`、`gpt-6.1-sol`、`gpt-6.2-sol`、`gpt-6.2-astra` | `gpt-6-astra`、`gpt-6.1-sol`、`gpt-6.2-sol`、`gpt-6.2-astra` |
 
 ### 注意：已请求 ≠ 已生效
 
